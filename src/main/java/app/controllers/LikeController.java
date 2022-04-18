@@ -25,7 +25,8 @@ public class LikeController {
 	// uses the postId field directly to create a new like
 	@PostMapping("/likes")
 	public Like addLike(@RequestBody Like like) {
-		return likeService.addLike(like);
+		return likeService.addLike(like);// need to validate that if the like exists already it should be updated and
+											// not create a new one
 	}
 
 	// uses LikeRequest which then gets the Post from the DB and creates a new Like

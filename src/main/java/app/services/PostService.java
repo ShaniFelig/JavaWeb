@@ -29,19 +29,7 @@ public class PostService {
 		return postRepository.findById(id).get();
 	}
 
-	/*
-	 * public int getUserIdByUserName(String userName) { List<User> users = new
-	 * ArrayList<>(); postRepository.findAll().forEach(users::add);
-	 * 
-	 * for (User user : users) { if (user.getUserName().equals(userName)) { return
-	 * user.getUserId(); } }
-	 * 
-	 * return -1; // Should throw exception? }
-	 * 
-	 * public User addUser(User user) { return postRepository.save(user); }
-	 * 
-	 * public void updateUser(User user) { postRepository.save(user); }
-	 * 
-	 * public void deleteUser(int id) { postRepository.deleteById(id); }
-	 */
+	public Post createPost(Post post) {
+		return postRepository.save(post);
+	}
 }
