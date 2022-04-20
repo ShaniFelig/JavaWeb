@@ -32,6 +32,6 @@ public class PostController {
 
 	@PostMapping("/posts")
 	public Post createPost(@RequestBody Post post) {
-		return postService.createPost(post);
+		return postService.addOrUpdate(post);
 	}
 }

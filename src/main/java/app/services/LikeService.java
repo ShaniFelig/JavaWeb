@@ -34,6 +34,11 @@ public class LikeService {
 		return likes;
 	}
 
+	public List<Like> getLikesbyPostId(int postId) {
+		List<Like> allLikes = getAllLikes();
+		return allLikes.stream().filter(l -> l.getPostId() == postId).toList();
+	}
+
 	public Like newLike(LikeRequest likeRequest) {
 		Post post = postRepository.findById(likeRequest.getPostId()).get();
 		User user = userRepository.findById(likeRequest.getUserId()).get();

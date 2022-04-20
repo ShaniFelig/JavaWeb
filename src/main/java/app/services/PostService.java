@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.models.FilterCriteria;
 import app.models.Post;
 import app.repositories.PostRepository;
 
@@ -25,11 +26,29 @@ public class PostService {
 		return posts;
 	}
 
+	public List<Post> filterPosts(FilterCriteria filters) {
+		List<Post> result = new ArrayList<>();
+		List<Post> posts = getAllPosts();
+		List<Integer> filterUserIds = filters.getUserIds();
+
+		Post currentPost;
+		for (int i = 0; i < posts.size(); i++) {
+			currentPost = posts.get(i);
+
+			if (currentPost.getDate().before(filters.getEndDate())
+					&& currentPost.getDate().after(filters.getStartDate())
+					&& filterUserIds.contains(currentPost.getUserId())) {
+				result.add(currentPost);
+			}
+		}
+		return result;
+	}
+
 	public Post getPostById(int id) {
 		return postRepository.findById(id).get();
 	}
 
-	public Post createPost(Post post) {
+	public Post addOrUpdate(Post post) {
 		return postRepository.save(post);
 	}
 }
