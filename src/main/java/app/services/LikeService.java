@@ -24,8 +24,23 @@ public class LikeService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public Like addLike(Like like) {
-		return likeRepository.save(like);
+	public Like addOrUpdateLike(Like like) {
+
+		// like exists -> update
+		Like currentLike = likeRepository.findByUserIdAndPostId(like.getUserId(), like.getPostId());
+		if (currentLike != null) {
+			currentLike.setActive(like.getIsActive());
+			if (currentLike.getIsActive() == false) {
+				likeRepository.delete(currentLike);
+				return null;
+			} else {
+				return likeRepository.save(currentLike);
+			}
+		}
+
+		else {
+			return likeRepository.save(like);
+		}
 	}
 
 	public List<Like> getAllLikes() {

@@ -1,5 +1,7 @@
 package app.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,17 +12,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Users") // cannot use 'user' as table name because it is a hibernate keyword and causes
 						// syntax error
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private int userId;
+	@Column(name = "user_name")
 	private String userName;
-	private String firstName;
-	private String lastName;
 	private String password;
-	private String address;
 
 	public User() {
 	}
@@ -43,6 +43,10 @@ public class User {
 		return userName;
 	}
 
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
@@ -51,31 +55,4 @@ public class User {
 		return userId;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 }

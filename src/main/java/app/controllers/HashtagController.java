@@ -5,11 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.models.HashTag;
+import app.models.Hashtag;
 import app.services.HashTagService;
 
 @CrossOrigin(origins = "http://localhost:4200/")
@@ -20,12 +18,12 @@ public class HashtagController {
 	private HashTagService hashtagService;
 
 	@GetMapping("/hashtags")
-	public List<HashTag> getAllHashtagss() {
+	public List<Hashtag> getAllHashtags() {
 		return hashtagService.getAllHashTags();
 	}
 
-	@PostMapping("/hashtags")
-	public HashTag createHashTag(@RequestBody HashTag hashtag) {
-		return hashtagService.createHashTag(hashtag);
-	}
+	/*
+	 * @PostMapping("/hashtags") public Hashtag createHashTag(@RequestBody Hashtag
+	 * hashtag) { return hashtagService.createHashTag(hashtag); }
+	 */
 }

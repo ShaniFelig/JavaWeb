@@ -6,47 +6,50 @@ import java.util.List;
 
 public class FilterCriteria {
 
-	private User[] users;
-	private Date startDate;
-	private Date endDate;
-	private HashTag[] hashTags;
+	private User[] publishers;
+	private Date startingDate;
+	private Date endingDate;
+	private List<String> hashtags;
 
-	public User[] getUsers() {
-		return users;
+	public User[] getPublishers() {
+		return publishers;
 	}
 
-	public void setUsers(User[] users) {
-		this.users = users;
+	public void setPublishers(User[] publishers) {
+		this.publishers = publishers;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getStartingDate() {
+		return startingDate;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartingDate(Date startingDate) {
+		this.startingDate = startingDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getEndingDate() {
+		return endingDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndingDate(Date endingDate) {
+		this.endingDate = endingDate;
 	}
 
-	public HashTag[] getHashTags() {
-		return hashTags;
+	public List<String> getHashtags() {
+		return hashtags;
 	}
 
-	public void setHashTags(HashTag[] hashTags) {
-		this.hashTags = hashTags;
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
 	}
 
 	public List<Integer> getUserIds() {
 		List<Integer> ids = new ArrayList<>();
-		for (User user : users) {
-			ids.add(user.getUserId());
+
+		if (publishers != null) {
+			for (User user : publishers) {
+				ids.add(user.getUserId());
+			}
 		}
 		return ids;
 	}

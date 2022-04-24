@@ -2,12 +2,15 @@ package app.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.models.FilterCriteria;
+import app.models.Hashtag;
 import app.models.Post;
+import app.repositories.HashtagRepository;
 import app.repositories.PostRepository;
 
 @Service // Singleton Service. Spring will detect in the class path all the classes that
@@ -19,6 +22,8 @@ public class PostService {
 
 	@Autowired
 	private PostRepository postRepository;
+	@Autowired
+	private HashtagRepository hashtagRepository;
 
 	public List<Post> getAllPosts() {
 		List<Post> posts = new ArrayList<>();
@@ -30,18 +35,34 @@ public class PostService {
 		List<Post> result = new ArrayList<>();
 		List<Post> posts = getAllPosts();
 		List<Integer> filterUserIds = filters.getUserIds();
+		List<String> filterHashtagsStrings = filters.getHashtags();
 
-		Post currentPost;
-		for (int i = 0; i < posts.size(); i++) {
-			currentPost = posts.get(i);
+		for (Post currentPost : posts) {
 
-			if (currentPost.getDate().before(filters.getEndDate())
-					&& currentPost.getDate().after(filters.getStartDate())
-					&& filterUserIds.contains(currentPost.getUserId())) {
+			if ((filters.getEndingDate() == null
+					|| (filters.getEndingDate() != null && currentPost.getDate().before(filters.getEndingDate())))
+					&& (filters.getStartingDate() == null || filters.getStartingDate() != null
+							&& currentPost.getDate().after(filters.getStartingDate()))
+					&& (filterHashtagsStrings == null || this.contains(currentPost, filterHashtagsStrings))
+					&& (filterUserIds.size() == 0 || filterUserIds.contains(currentPost.getUserId()))) {
+
 				result.add(currentPost);
 			}
 		}
 		return result;
+
+	}
+
+	public boolean contains(Post post, List<String> filterHashtagsStrings) {
+
+		List<Hashtag> filtertags = hashtagRepository.findByContentIn(filterHashtagsStrings);
+		Set<Hashtag> postTags = post.getTags();
+		for (Hashtag filterTag : filtertags) {
+			if (postTags.contains(filterTag)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Post getPostById(int id) {
@@ -49,6 +70,15 @@ public class PostService {
 	}
 
 	public Post addOrUpdate(Post post) {
+
+		// post exists -> update
+		if (post.getPostId() != 0) { // post exists
+			Post currentPost = postRepository.findById(post.getPostId()).get();
+			currentPost.setDescription(post.getDescription());
+			currentPost.setImageSorce(post.getImageSorce());
+			currentPost.setTags(post.getTags());
+			return postRepository.save(currentPost);
+		}
 		return postRepository.save(post);
 	}
 }

@@ -21,9 +21,8 @@ public class CommentService {
 		return comments;
 	}
 
-	public List<Comment> getAllCommentsByPostId(int postId) {
-		List<Comment> comments = getAllComments();
-		return comments.stream().filter(c -> c.getPostId() == postId).toList();
+	public List<Comment> getCommentsByPostId(int postId) {
+		return commentRepository.findByPostId(postId);
 
 	}
 

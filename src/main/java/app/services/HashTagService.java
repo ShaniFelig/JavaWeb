@@ -1,27 +1,30 @@
 package app.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import app.models.HashTag;
-import app.repositories.HashTagRepository;
+import app.models.Hashtag;
+import app.repositories.HashtagRepository;
 
 @Service
 public class HashTagService {
 
 	@Autowired
-	private HashTagRepository hashTagRepository;
+	private HashtagRepository hashTagRepository;
 
-	public List<HashTag> getAllHashTags() {
-		List<HashTag> hashTags = new ArrayList<>();
-		hashTagRepository.findAll().forEach(hashTags::add);
+	private final List<Integer> hashtagIds = Arrays.asList(1, 2, 3);
+
+	public List<Hashtag> getAllHashTags() {
+		List<Hashtag> hashTags = new ArrayList<>();
+		hashTagRepository.findAllById(hashtagIds).forEach(hashTags::add);
 		return hashTags;
 	}
 
-	public HashTag createHashTag(HashTag hashTag) {
+	public Hashtag createHashTag(Hashtag hashTag) {
 		return hashTagRepository.save(hashTag);
 	}
 }

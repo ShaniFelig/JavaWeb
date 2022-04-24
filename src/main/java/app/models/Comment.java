@@ -1,16 +1,23 @@
 package app.models;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//need to have user tags
 
 @Entity
 @Table(name = "Comments")
@@ -39,8 +46,9 @@ public class Comment {
 
 	private String content;
 
-	private HashTag[] tags;
-	/* private UserTaggedComment userTaggedComment; */
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinTable(name = "CommentHashtagMapping", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
+	private Set<Hashtag> tags;
 
 	public int getCommentId() {
 		return commentId;
@@ -90,11 +98,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public HashTag[] getTags() {
+	public Set<Hashtag> getTags() {
 		return tags;
 	}
 
-	public void setTags(HashTag[] tags) {
+	public void setTags(Set<Hashtag> tags) {
 		this.tags = tags;
 	}
 
