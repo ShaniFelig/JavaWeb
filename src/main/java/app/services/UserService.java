@@ -21,7 +21,8 @@ public class UserService {
 
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();
-		userRepository.findAll().forEach(users::add);
+		userRepository.findByPasswordNotNull().forEach(users::add);
+
 		return users;
 	}
 

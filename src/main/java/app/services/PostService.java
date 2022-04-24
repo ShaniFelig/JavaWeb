@@ -34,7 +34,6 @@ public class PostService {
 	public List<Post> filterPosts(FilterCriteria filters) {
 		List<Post> result = new ArrayList<>();
 		List<Post> posts = getAllPosts();
-		List<Integer> filterUserIds = filters.getUserIds();
 		List<String> filterHashtagsStrings = filters.getHashtags();
 
 		for (Post currentPost : posts) {
@@ -43,8 +42,8 @@ public class PostService {
 					|| (filters.getEndingDate() != null && currentPost.getDate().before(filters.getEndingDate())))
 					&& (filters.getStartingDate() == null || filters.getStartingDate() != null
 							&& currentPost.getDate().after(filters.getStartingDate()))
-					&& (filterHashtagsStrings == null || this.contains(currentPost, filterHashtagsStrings))
-					&& (filterUserIds.size() == 0 || filterUserIds.contains(currentPost.getUserId()))) {
+					&& (filterHashtagsStrings == null || this.containsHashtag(currentPost, filterHashtagsStrings))
+					&& (filters.getPublishers() == null || filters.getPublishers().contains(currentPost.getUserName()))) {
 
 				result.add(currentPost);
 			}
@@ -53,7 +52,7 @@ public class PostService {
 
 	}
 
-	public boolean contains(Post post, List<String> filterHashtagsStrings) {
+	public boolean containsHashtag(Post post, List<String> filterHashtagsStrings) {
 
 		List<Hashtag> filtertags = hashtagRepository.findByContentIn(filterHashtagsStrings);
 		Set<Hashtag> postTags = post.getTags();

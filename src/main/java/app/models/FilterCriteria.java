@@ -1,21 +1,20 @@
 package app.models;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class FilterCriteria {
 
-	private User[] publishers;
+	private List<String> publishers;
 	private Date startingDate;
 	private Date endingDate;
 	private List<String> hashtags;
 
-	public User[] getPublishers() {
+	public List<String> getPublishers() {
 		return publishers;
 	}
 
-	public void setPublishers(User[] publishers) {
+	public void setPublishers(List<String> publishers) {
 		this.publishers = publishers;
 	}
 
@@ -41,17 +40,6 @@ public class FilterCriteria {
 
 	public void setHashtags(List<String> hashtags) {
 		this.hashtags = hashtags;
-	}
-
-	public List<Integer> getUserIds() {
-		List<Integer> ids = new ArrayList<>();
-
-		if (publishers != null) {
-			for (User user : publishers) {
-				ids.add(user.getUserId());
-			}
-		}
-		return ids;
 	}
 
 }

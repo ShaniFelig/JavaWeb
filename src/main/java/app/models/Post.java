@@ -52,6 +52,11 @@ public class Post {
 	@Column(name = "tags")
 	private Set<Hashtag> tags;
 
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinTable(name = "PostUsertagMapping", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_name"))
+	@Column(name = "usertags")
+	private Set<User> userTaggedPost;
+
 	@Column(name = "user_id")
 	private int userId;
 
@@ -167,6 +172,14 @@ public class Post {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Set<User> getUserTaggedPost() {
+		return userTaggedPost;
+	}
+
+	public void setUserTaggedPost(Set<User> userTaggedPost) {
+		this.userTaggedPost = userTaggedPost;
 	}
 
 }

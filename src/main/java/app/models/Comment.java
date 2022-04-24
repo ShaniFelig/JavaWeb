@@ -50,6 +50,11 @@ public class Comment {
 	@JoinTable(name = "CommentHashtagMapping", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
 	private Set<Hashtag> tags;
 
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinTable(name = "CommentUsertagMapping", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "user_name"))
+	@Column(name = "usertags")
+	private Set<User> userTaggedComment;
+
 	public int getCommentId() {
 		return commentId;
 	}
@@ -104,6 +109,14 @@ public class Comment {
 
 	public void setTags(Set<Hashtag> tags) {
 		this.tags = tags;
+	}
+
+	public Set<User> getUserTaggedComment() {
+		return userTaggedComment;
+	}
+
+	public void setUserTaggedComment(Set<User> userTaggedComment) {
+		this.userTaggedComment = userTaggedComment;
 	}
 
 }

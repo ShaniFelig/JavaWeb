@@ -1,5 +1,7 @@
 package app.repositories;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import app.models.User;
@@ -12,4 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> /*
 
 	// No connection information necessary because we are working with embedded
 	// Apache database
+
+	List<User> findByPasswordNotNull();
 }
