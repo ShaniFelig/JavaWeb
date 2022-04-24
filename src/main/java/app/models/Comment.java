@@ -31,7 +31,10 @@ public class Comment {
 	@Column(name = "user_id")
 	private int userId;
 
-	@JsonIgnore
+	@Column(name = "user_name")
+	private String userName;
+
+	// @JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;
@@ -117,6 +120,14 @@ public class Comment {
 
 	public void setUserTaggedComment(Set<User> userTaggedComment) {
 		this.userTaggedComment = userTaggedComment;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }
